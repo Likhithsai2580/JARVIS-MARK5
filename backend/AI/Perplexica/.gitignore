@@ -1,0 +1,38 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build output
+/.next/
+/out/
+/dist/
+
+# IDE/Editor specific
+.vscode/
+.idea/
+*.iml
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Config files
+config.toml
+
+# Log files
+logs/
+*.log
+
+# Testing
+/coverage/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+
+# Db
+db.sqlite
