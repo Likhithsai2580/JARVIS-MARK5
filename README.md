@@ -103,6 +103,43 @@ SEARXNG = "http://localhost:8080"
 OLLAMA = "http://localhost:11434"
 ```
 
+### Database Configuration
+
+JARVIS-MARK5 uses a PostgreSQL database to store conversation history and other relevant data. This allows for persistent storage and retrieval of information across sessions.
+
+#### PostgreSQL Setup
+
+1. Ensure you have PostgreSQL installed on your system.
+2. Create a new database named `memory_agent`.
+3. Set up a user with the following credentials:
+   - Username: `admin`
+   - Password: `admin`
+4. Make sure the PostgreSQL server is running on `localhost` and port `5432`.
+
+You can customize these settings by modifying the `DB_PARAMS` dictionary in `backend/modules/llms.py` or by setting the following environment variables:
+- `DB_NAME`
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_HOST`
+- `DB_PORT`
+
+#### Why PostgreSQL?
+
+PostgreSQL is used in JARVIS-MARK5 for several reasons:
+1. **Persistent Storage**: It allows the system to maintain conversation history and other data across multiple sessions.
+2. **Efficient Querying**: PostgreSQL's powerful querying capabilities enable quick retrieval of relevant information.
+3. **Scalability**: As the amount of data grows, PostgreSQL can handle large datasets efficiently.
+4. **Data Integrity**: PostgreSQL ensures data consistency and provides ACID compliance.
+
+#### How It Works
+
+1. When JARVIS-MARK5 starts, it establishes a connection to the PostgreSQL database.
+2. Each conversation (user input and AI response) is stored in the `conversations` table.
+3. The system can retrieve past conversations to provide context for new queries.
+4. The database is also used to store embeddings for efficient semantic search capabilities.
+
+By using a database, JARVIS-MARK5 can learn from past interactions and provide more contextually relevant responses over time.
+
 ## Usage
 
 To start JARVIS-MARK5:
