@@ -277,16 +277,6 @@ To develop a new extension for JARVIS-MARK5:
            super().__init__(config)
            # Initialize your extension here
 
-- Perplexica (AI-powered search engine)
-- OpenAI (Large Language Models)
-- Groq (API for querying knowledge graphs)
-- Anthropic (AI-powered search engine)
-- PyTorch (Deep learning framework)
-- Transformers (Library for transformer models)
-- PyGitHub (Python library for GitHub API)
-
-We would like to thank the contributors and maintainers of these projects for their hard work and dedication.
-
 ## Troubleshooting
 
 If you encounter any issues while using JARVIS-MARK5, please check the following:
@@ -312,3 +302,17 @@ Please ensure your code adheres to our coding standards and include tests for ne
 ## License
 
 JARVIS-MARK5 is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+We would like to thank the contributors and maintainers of the open-source projects that JARVIS-MARK5 relies on, including:
+
+- Perplexica (AI-powered search engine)
+- OpenAI (Large Language Models)
+- Groq (API for querying knowledge graphs)
+- Anthropic (AI-powered search engine)
+- PyTorch (Deep learning framework)
+- Transformers (Library for transformer models)
+- PyGitHub (Python library for GitHub API)
+
+We are grateful for their hard work and dedication, which has made JARVIS-MARK5 possible.
