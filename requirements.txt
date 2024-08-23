@@ -8,6 +8,7 @@ llm_axe
 selenium
 fpdf
 docx2pdf
+eel
 ppt2pdf
 fpdf
 nara
@@ -31,3 +32,4 @@ pptx
 g4f
 flask
 jinja2
+mtranslate

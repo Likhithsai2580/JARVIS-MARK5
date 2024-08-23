@@ -30,8 +30,8 @@ def Eye(q):
         img_discription=capture_and_send_image()
         context_query = f"{q}, if this query needs internet research, respond with 'internet' only, ***Reply like Tony Stark's Jarvis in fewer words. If it's to perform an action on the computer, write complete code in Python, nothing else.***, LIVE CAM is ON {img_discription} (to close webcam reply only 'stop' and nothing else)"
         rep = cached_function(context_query, ChatGpt, context_query)
-        if "STOP" in rep.capitalize:
-            break
+        if "STOP" in rep.upper():
+            return "stop"
         else:
             try:
                 code = filter(rep)
@@ -45,4 +45,4 @@ def Eye(q):
 
 def EYE():
     resp = Listen()
-    Eye(resp)
+    return Eye(resp)

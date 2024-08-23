@@ -66,3 +66,4 @@ def ocr_on(search_string, double_click=False):
             pag.click(point)
         else:
             pag.click(point)
+        return "ocr"

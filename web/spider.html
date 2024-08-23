@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS Interface</title>
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+<body>
+    <h1>JARVIS Interface</h1>
+    <div id="status"></div>
+    <button onclick="startListening()">Start Listening</button>
+    <button onclick="stopListening()">Stop Listening</button>
+    <button onclick="startVideo()">Start Video</button>
+    <button onclick="stopVideo()">Stop Video</button>
+    <button onclick="captureImage()">Capture Image</button>
+    <div id="messages"></div>
+
+    <script>
+        // Update status
+        async function updateStatus() {
+            const status = await eel.js_state()();
+            document.getElementById('status').textContent = `Status: ${status}`;
+        }
+
+        // Start listening
+        function startListening() {
+            // Simulating microphone input
+            eel.js_mic("Hello JARVIS");
+        }
+
+        // Stop listening
+        function stopListening() {
+            eel.js_state("Available...")();
+        }
+
+        // Start video
+        function startVideo() {
+            eel.python_call_to_start_video();
+        }
+
+        // Stop video
+        function stopVideo() {
+            eel.python_call_to_stop_video();
+        }
+
+        // Capture image
+        function captureImage() {
+            eel.python_call_to_capture();
+        }
+
+        // Handle captured image
+        eel.expose(handleCapturedImage);
+        function handleCapturedImage(imageData) {
+            eel.handle_captured_image(imageData);
+        }
+
+        // Update messages
+        async function updateMessages() {
+            const newMessages = await eel.js_messages()();
+            const messagesDiv = document.getElementById('messages');
+            newMessages.forEach(msg => {
+                const p = document.createElement('p');
+                p.textContent = `${msg.role}: ${msg.content}`;
+                messagesDiv.appendChild(p);
+            });
+        }
+
+        // Setup
+        eel.setup();
+
+        // Update status and messages every second
+        setInterval(() => {
+            updateStatus();
+            updateMessages();
+        }, 1000);
+    </script>
+</body>
+</html>

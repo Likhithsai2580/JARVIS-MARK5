@@ -1,0 +1,523 @@
+<html id="settings">
+
+<head>
+    <style>
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+        @import url("https://fonts.googleapis.com/css?family=Poppins:500,600");
+        .screen textarea:focus,
+        .screen input:focus {
+            outline: none;
+        }
+        
+        .screen * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+        
+        .screen div {
+            -webkit-text-size-adjust: none;
+        }
+        
+        .component-wrapper a {
+            display: contents;
+            pointer-events: auto;
+            text-decoration: none;
+        }
+        
+        .component-wrapper * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+        
+        .component-wrapper a *,
+        .component-wrapper input,
+        .component-wrapper video,
+        .component-wrapper iframe {
+            pointer-events: auto;
+        }
+        
+        .component-wrapper.not-ready,
+        .component-wrapper.not-ready * {
+            visibility: hidden !important;
+        }
+        
+        .screen a {
+            display: contents;
+            text-decoration: none;
+        }
+        
+        .full-width-a {
+            width: 100%;
+        }
+        
+        .full-height-a {
+            height: 100%;
+        }
+        
+        .container-center-vertical {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .container-center-vertical>* {
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+        
+        .container-center-horizontal {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            pointer-events: none;
+            width: 100%;
+        }
+        
+        .container-center-horizontal>* {
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+        
+        .auto-animated div {
+            --z-index: -1;
+            opacity: 0;
+            position: absolute;
+        }
+        
+        .auto-animated input {
+            --z-index: -1;
+            opacity: 0;
+            position: absolute;
+        }
+        
+        .auto-animated .container-center-vertical,
+        .auto-animated .container-center-horizontal {
+            opacity: 1;
+        }
+        
+        .overlay-base {
+            display: none;
+            height: 100%;
+            opacity: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        
+        .overlay-base.animate-appear {
+            align-items: center;
+            animation: reveal 0.3s ease-in-out 1 normal forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+        }
+        
+        .overlay-base.animate-disappear {
+            animation: reveal 0.3s ease-in-out 1 reverse forwards;
+            display: block;
+            opacity: 1;
+            pointer-events: none;
+        }
+        
+        .overlay-base.animate-disappear * {
+            pointer-events: none;
+        }
+        
+        @keyframes reveal {
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
+        
+        .animate-nodelay {
+            animation-delay: 0s;
+        }
+        
+        .align-self-flex-start {
+            align-self: flex-start;
+        }
+        
+        .align-self-flex-end {
+            align-self: flex-end;
+        }
+        
+        .align-self-flex-center {
+            align-self: flex-center;
+        }
+        
+        .valign-text-middle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .valign-text-bottom {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        
+        input:focus {
+            outline: none;
+        }
+        
+        .listeners-active,
+        .listeners-active * {
+            pointer-events: auto;
+        }
+        
+        .hidden,
+        .hidden * {
+            pointer-events: none;
+            visibility: hidden;
+        }
+        
+        .smart-layers-pointers,
+        .smart-layers-pointers * {
+            pointer-events: auto;
+            visibility: visible;
+        }
+        
+        .listeners-active-click,
+        .listeners-active-click * {
+            cursor: pointer;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+         :root {
+            --black: #000000;
+            --cloud: #c5c5c5;
+            --white: #ffffff;
+            --font-size-l: 18px;
+            --font-size-m: 14px;
+            --font-family-poppins: "Poppins", Helvetica;
+        }
+        
+        .poppins-medium-white-14px {
+            color: var(--white);
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 500;
+        }
+        /* screen - settings */
+        
+        .settings {
+            background-color: #030204;
+            height: 1024px;
+            overflow: hidden;
+            overflow-x: hidden;
+            position: relative;
+            width: 1440px;
+        }
+        
+        .settings .glowing-button-tQColF {
+            background-color: transparent;
+            height: 47px;
+            left: 620px;
+            position: absolute;
+            top: 829px;
+            width: 200px;
+        }
+        
+        .settings .gemini-tQColF {
+            background-color: transparent;
+            height: 64px;
+            left: 461px;
+            position: absolute;
+            top: 713px;
+            width: 520px;
+        }
+        
+        .settings .hf-tQColF {
+            background-color: transparent;
+            height: 64px;
+            left: 461px;
+            position: absolute;
+            top: 594px;
+            width: 520px;
+        }
+        
+        .settings .groq-tQColF {
+            background-color: transparent;
+            height: 64px;
+            left: 461px;
+            position: absolute;
+            top: 475px;
+            width: 520px;
+        }
+        
+        .settings .assistent-name-tQColF {
+            background-color: transparent;
+            height: 64px;
+            left: 461px;
+            position: absolute;
+            top: 356px;
+            width: 520px;
+        }
+        
+        .settings .usrname-tQColF {
+            background-color: transparent;
+            height: 64px;
+            left: 461px;
+            position: absolute;
+            top: 237px;
+            width: 520px;
+        }
+        
+        .settings .navigation-bar-tQColF {
+            background-color: transparent;
+            height: 75px;
+            left: 503px;
+            position: absolute;
+            top: 81px;
+            width: 434px;
+        }
+        
+        .settings .nev-bg-image-1-4MLKvx {
+            background-color: transparent;
+            height: 75px;
+            left: 0px;
+            object-fit: cover;
+            position: absolute;
+            top: 0px;
+            width: 434px;
+        }
+        
+        .settings .navigation-bar-text-4MLKvx {
+            background-color: transparent;
+            height: 28px;
+            left: 63px;
+            position: absolute;
+            top: 23px;
+            width: 341px;
+        }
+        
+        .settings .tutorials-MpBhnU {
+            background-color: transparent;
+            color: #a1a1a1;
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-l);
+            font-style: normal;
+            font-weight: 600;
+            height: 27px;
+            left: 254px;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: absolute;
+            text-align: justify;
+            top: 0px;
+            width: auto;
+        }
+        
+        .settings .settings-MpBhnU {
+            background-color: transparent;
+            color: #0b68f3;
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-l);
+            font-style: normal;
+            font-weight: 600;
+            height: 27px;
+            left: 117px;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: absolute;
+            text-align: justify;
+            top: 1px;
+            width: auto;
+        }
+        
+        .settings .home-MpBhnU {
+            background-color: transparent;
+            color: #a1a1a1;
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-l);
+            font-style: normal;
+            font-weight: 600;
+            height: 27px;
+            left: 0px;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: absolute;
+            text-align: justify;
+            top: 1px;
+            width: auto;
+        }
+        
+        .settings .label_rtl {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 1; /* WebKit-specific */
+            line-clamp: 1; /* Future standard */
+            background-color: transparent;
+            height: 21px;
+            left: 49px;
+            letter-spacing: 0.07px;
+            line-height: normal;
+            position: absolute;
+            text-align: left;
+            top: 22px;
+            width: 444px;
+            white-space: nowrap;
+        }
+        
+        
+        .settings .r-icons {
+            background-color: transparent;
+            height: 24px;
+            left: 15px;
+            position: absolute;
+            top: 20px;
+            width: 24px;
+        }
+        
+        .settings .rectangle-99 {
+            background-color: transparent;
+            border: 2px solid;
+            border-color: var(--cloud);
+            border-radius: 12px;
+            height: 64px;
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            width: 518px;
+        }
+        
+        .cp {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body style="margin: 0;background: #030204; overflow-y: hidden">
+    <div id="notification">
+
+    </div>
+    <div class="container-center-horizontal">
+        <div class="settings screen" style="margin-top: 0px;">
+            <div class="cp" onclick="setvalues()">
+                <img alt="Glowing button" class="glowing-button-tQColF" src="https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/glowing-button.png" />
+            </div>
+            <div class="gemini-tQColF cp">
+                <div class="rectangle-99">
+                </div>
+                <img alt="R-icons" class="r-icons" src="https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/r-icons.svg" />
+                <input id="Gemini" type="text" class="label_rtl valign-text-middle poppins-medium-white-14px" placeholder="Cohere API Key" style="border: none;outline: none;">
+            </div>
+            <div class="hf-tQColF cp">
+                <div class="rectangle-99">
+                </div>
+                <img alt="R-icons" class="r-icons" src="https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/r-icons.svg" />
+                <input id="HuggingFace" type="text" class="label_rtl valign-text-middle poppins-medium-white-14px" placeholder="Hugging Face API Key" style="border: none;outline: none;">
+            </div>
+            <div class="groq-tQColF cp">
+                <div class="rectangle-99">
+                </div>
+                <img alt="R-icons" class="r-icons" src="https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/r-icons.svg" />
+                <input id="Groq" type="text" class="label_rtl valign-text-middle poppins-medium-white-14px" placeholder="Groq API Key" style="border: none;outline: none;">
+            </div>
+            <div class="assistent-name-tQColF cp">
+                <div class="rectangle-99">
+                </div>
+                <img alt="R-icons" class="r-icons" src="https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/r-icons.svg" />
+                <input id="AssistantName" type="text" class="label_rtl valign-text-middle poppins-medium-white-14px" placeholder="Assistant Name" style="border: none;outline: none;">
+            </div>
+            <div class="usrname-tQColF cp">
+                <div class="rectangle-99">
+                </div>
+                <img alt="R-icons" class="r-icons" src="https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/r-icons.svg" />
+                <input id="Username" type="text" class="label_rtl valign-text-middle poppins-medium-white-14px" placeholder="Username" style="border: none;outline: none;">
+            </div>
+
+            <div class="navigation-bar-tQColF cp">
+                <img alt="nevBG image 1" class="nev-bg-image-1-4MLKvx" src="https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/nevbg-image-1.png" />
+                <div class="navigation-bar-text-4MLKvx">
+                    <div class="tutorials-MpBhnU valign-text-middle">
+                        Tutorials
+                    </div>
+                    <div class="settings-MpBhnU valign-text-middle">
+                        Settings
+                    </div>
+                    <div class="home-MpBhnU valign-text-middle" onclick="eel.js_page('home')">
+                        Home
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="eel.js"></script>
+
+<script>
+    function setvalues() {
+        var GeminiApi = document.getElementById("Gemini").value;
+        var HuggingFaceApi = document.getElementById("HuggingFace").value;
+        var GroqApi = document.getElementById("Groq").value;
+        var AssistantName = document.getElementById("AssistantName").value;
+        var Username = document.getElementById("Username").value;
+        eel.js_setvalues(GeminiApi, HuggingFaceApi, GroqApi, AssistantName, Username);
+        showNotification();
+    }
+
+    function showNotification(text = "🔔 Your settings have been saved!") {
+        var notification = document.getElementById("notification");
+        notification.textContent = text;
+        notification.style.display = "block";
+        setTimeout(function() {
+            notification.style.display = "none";
+        }, 3000); // Hide after 3 seconds
+    }
+    const tutorials = document.querySelector(".tutorials-MpBhnU")
+    tutorials.addEventListener('click', () => {
+        showNotification('🔔 Coming Soon!')
+    })
+    document.addEventListener('contextmenu', event => event.preventDefault());
+</script>
+<style>
+    #notification {
+        display: none;
+        background-color: #ffffff;
+        /* Green background */
+        color: black;
+        font-family: var(--font-family-poppins);
+        /* White text */
+        padding: 15px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        border-radius: 10px;
+        z-index: 1000;
+    }
+    
+    img,
+    video {
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+</style>

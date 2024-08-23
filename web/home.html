@@ -1,0 +1,729 @@
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=1440, maximum-scale=1.0" name="viewport" />
+    <style>
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+        @import url("https://fonts.googleapis.com/css?family=Poppins:500,700,600");
+        /* The following line is used to measure usage of this code. You can remove it if you want. */
+        
+        .screen textarea:focus,
+        .screen input:focus {
+            outline: none;
+        }
+        
+        .screen * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+        
+        .screen div {
+            -webkit-text-size-adjust: none;
+        }
+        
+        .component-wrapper a {
+            display: contents;
+            pointer-events: auto;
+            text-decoration: none;
+        }
+        
+        .component-wrapper * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+        
+        .component-wrapper a *,
+        .component-wrapper input,
+        .component-wrapper video,
+        .component-wrapper iframe {
+            pointer-events: auto;
+        }
+        
+        .component-wrapper.not-ready,
+        .component-wrapper.not-ready * {
+            visibility: hidden !important;
+        }
+        
+        .screen a {
+            display: contents;
+            text-decoration: none;
+        }
+        
+        .full-width-a {
+            width: 100%;
+        }
+        
+        .full-height-a {
+            height: 100%;
+        }
+        
+        .container-center-vertical {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .container-center-vertical>* {
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+        
+        .container-center-horizontal {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            pointer-events: none;
+            width: 100%;
+        }
+        
+        .container-center-horizontal>* {
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+        
+        .auto-animated div {
+            --z-index: -1;
+            opacity: 0;
+            position: absolute;
+        }
+        
+        .auto-animated input {
+            --z-index: -1;
+            opacity: 0;
+            position: absolute;
+        }
+        
+        .auto-animated .container-center-vertical,
+        .auto-animated .container-center-horizontal {
+            opacity: 1;
+        }
+        
+        .overlay-base {
+            display: none;
+            height: 100%;
+            opacity: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        
+        .overlay-base.animate-appear {
+            align-items: center;
+            animation: reveal 0.3s ease-in-out 1 normal forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+        }
+        
+        .overlay-base.animate-disappear {
+            animation: reveal 0.3s ease-in-out 1 reverse forwards;
+            display: block;
+            opacity: 1;
+            pointer-events: none;
+        }
+        
+        .overlay-base.animate-disappear * {
+            pointer-events: none;
+        }
+        
+        @keyframes reveal {
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
+        
+        .animate-nodelay {
+            animation-delay: 0s;
+        }
+        
+        .align-self-flex-start {
+            align-self: flex-start;
+        }
+        
+        .align-self-flex-end {
+            align-self: flex-end;
+        }
+        
+        .align-self-flex-center {
+            align-self: flex-center;
+        }
+        
+        .valign-text-middle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .valign-text-bottom {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        
+        input:focus {
+            outline: none;
+        }
+        
+        .listeners-active,
+        .listeners-active * {
+            pointer-events: auto;
+        }
+        
+        .hidden,
+        .hidden * {
+            pointer-events: none;
+            visibility: hidden;
+        }
+        
+        .smart-layers-pointers,
+        .smart-layers-pointers * {
+            pointer-events: auto;
+            visibility: visible;
+        }
+        
+        .listeners-active-click,
+        .listeners-active-click * {
+            cursor: pointer;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+         :root {
+            --black: #000000;
+            --white: #ffffff;
+            --font-size-m: 18px;
+            --font-family-poppins: "Poppins", Helvetica;
+        }
+        
+        .poppins-medium-white-18px {
+            color: var(--white);
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 100;
+        }
+        
+        .poppins-bold-white-18px {
+            color: var(--white);
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 400;
+        }
+        
+        .home {
+            background-color: var(--black);
+            height: 1024px;
+            overflow: hidden;
+            overflow-x: hidden;
+            position: relative;
+            width: 1440px;
+        }
+        
+        .home .gui-xl4bh6 {
+            background-color: transparent;
+            height: 713px;
+            left: 820px;
+            position: absolute;
+            top: 187px;
+            width: 629px;
+        }
+        
+        .home .mic-nrE5vI {
+            background-color: transparent;
+            height: 157px;
+            left: 229px;
+            position: absolute;
+            top: 556px;
+            width: 157px;
+        }
+        
+        .home .answering-nrE5vI {
+            /* background-color: skyblue; */
+            text-align: center;
+            margin-right: 15px;
+        }
+        
+        .home .video-nrE5vI {
+            background-color: transparent;
+            height: 490px;
+            left: 0px;
+            object-fit: cover;
+            position: absolute;
+            top: 0px;
+            width: 620px;
+        }
+        
+        .home .text-xl4bh6 {
+            background-color: transparent;
+            height: 594px;
+            left: 116px;
+            position: absolute;
+            top: 254px;
+            width: 670px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .home .text-xl4bh6::-webkit-scrollbar {
+            width: 13px;
+            height: 10px;
+            /* Width of the scrollbar */
+        }
+        
+        .home .text-xl4bh6::-webkit-scrollbar-track {
+            background: transparent;
+            /* Background of the track */
+        }
+        
+        .home .text-xl4bh6::-webkit-scrollbar-thumb {
+            background-color: white;
+            /* Color of the scrollbar thumb */
+            border-radius: 10px;
+            /* Rounded corners */
+            border: 3px solid transparent;
+            /* Space around the thumb */
+            background-clip: padding-box;
+            /* Ensures background extends into border area */
+        }
+        
+        .home .kaushik-hello-jarvis-RREVtL {
+            background-color: transparent;
+            height: auto;
+            left: 0px;
+            letter-spacing: 0.45px;
+            line-height: normal;
+            position: absolute;
+            text-align: left;
+            top: 0px;
+            width: 623px;
+        }
+        
+        .home .span0 {
+            letter-spacing: 1px;
+            word-spacing: 1px;
+            padding-bottom: 10px;
+        }
+        
+        .home .scroll-RREVtL {
+            background-color: #d9d9d9;
+            border-radius: 4px;
+            height: 34px;
+            left: 659px;
+            position: absolute;
+            top: 190px;
+            width: 9px;
+            cursor: pointer;
+            /* Add a cursor for interactivity */
+        }
+        
+        .home .navigation-bar-xl4bh6 {
+            background-color: transparent;
+            height: 75px;
+            left: 503px;
+            position: absolute;
+            top: 81px;
+            width: 434px;
+        }
+        
+        .home .nev-bg-DUdYHJ {
+            background-color: transparent;
+            height: 75px;
+            left: 0px;
+            object-fit: cover;
+            position: absolute;
+            top: 0px;
+            width: 434px;
+        }
+        
+        .home .navigation-bar-text-DUdYHJ {
+            background-color: transparent;
+            height: 28px;
+            left: 63px;
+            position: absolute;
+            top: 23px;
+            width: 341px;
+        }
+        
+        .home .tutorials-o1p0oG {
+            background-color: transparent;
+            color: #a1a1a1;
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 600;
+            height: 27px;
+            left: 254px;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: absolute;
+            text-align: justify;
+            top: 0px;
+            width: auto;
+        }
+        
+        .home .settings-o1p0oG {
+            background-color: transparent;
+            color: #a1a1a1;
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 600;
+            height: 27px;
+            left: 117px;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: absolute;
+            text-align: justify;
+            top: 1px;
+            width: auto;
+        }
+        
+        .home .home-o1p0oG {
+            background-color: transparent;
+            color: #0b68f3;
+            font-family: var(--font-family-poppins);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 600;
+            height: 27px;
+            left: 0px;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: absolute;
+            text-align: justify;
+            top: 1px;
+            width: auto;
+        }
+        
+        .cp {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body style="margin: 0;background: #000000; overflow-y: hidden; overflow-x: hidden;">
+    <div id="notification">
+
+    </div>
+    <div class="container-center-horizontal">
+        <div class="home screen" style="margin-top: 0px;">
+            <div class="gui-xl4bh6">
+                <div class="mic-nrE5vI">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="mic" class="mic" width="157" height="157" viewBox="0 0 157 157" fill="none"><script xmlns="" id="eppiocemhmnlbhjplcgkofciiegomcon"/><script xmlns=""/><script xmlns=""/>
+                        <path d="M40.869 85.899C43.4458 94.7747 47.2781 103.015 54.5091 108.437C61.7402 113.858 70.4821 116.65 79.3788 116.377C88.2756 116.104 96.8301 112.783 103.716 106.929C110.601 101.074 115.433 93.0132 117.461 83.9965C115.574 92.3858 108.339 99.211 101.932 104.658C95.526 110.105 87.5668 113.195 79.2891 113.449C71.0115 113.703 62.878 111.106 56.1501 106.061C49.4222 101.017 43.2665 94.157 40.869 85.899Z" fill="white"/>
+                        <mask id="path-2-inside-1_446_508" fill="white">
+                        <path d="M101.585 132.185C101.771 132.618 102.273 132.819 102.703 132.628C111.338 128.784 118.951 122.965 124.917 115.642C131.062 108.099 135.273 99.1877 137.185 89.6806C139.098 80.1735 138.653 70.3575 135.891 61.0837C133.129 51.8098 128.132 43.3579 121.333 36.4605C114.535 29.5631 106.14 24.4285 96.8765 21.5017C87.613 18.5749 77.7604 17.9442 68.1727 19.6644C58.5851 21.3846 49.5517 25.4036 41.8557 31.3732C34.3874 37.1661 28.3971 44.6262 24.3703 53.1402C24.1672 53.5697 24.3606 54.0799 24.7943 54.2737V54.2737C25.2237 54.4657 25.7269 54.2748 25.928 53.8497C29.8394 45.5845 35.6558 38.3425 42.9066 32.7183C50.3819 26.9199 59.1562 23.0161 68.4689 21.3453C77.7816 19.6745 87.3517 20.2871 96.3495 23.1299C105.347 25.9728 113.501 30.9602 120.105 37.6597C126.709 44.3593 131.562 52.5689 134.245 61.5768C136.928 70.5847 137.36 80.1191 135.502 89.3536C133.645 98.5881 129.555 107.244 123.586 114.571C117.796 121.677 110.41 127.326 102.031 131.059C101.601 131.251 101.4 131.752 101.585 132.185V132.185Z"/>
+                        </mask>
+                        <path d="M101.585 132.185C101.771 132.618 102.273 132.819 102.703 132.628C111.338 128.784 118.951 122.965 124.917 115.642C131.062 108.099 135.273 99.1877 137.185 89.6806C139.098 80.1735 138.653 70.3575 135.891 61.0837C133.129 51.8098 128.132 43.3579 121.333 36.4605C114.535 29.5631 106.14 24.4285 96.8765 21.5017C87.613 18.5749 77.7604 17.9442 68.1727 19.6644C58.5851 21.3846 49.5517 25.4036 41.8557 31.3732C34.3874 37.1661 28.3971 44.6262 24.3703 53.1402C24.1672 53.5697 24.3606 54.0799 24.7943 54.2737V54.2737C25.2237 54.4657 25.7269 54.2748 25.928 53.8497C29.8394 45.5845 35.6558 38.3425 42.9066 32.7183C50.3819 26.9199 59.1562 23.0161 68.4689 21.3453C77.7816 19.6745 87.3517 20.2871 96.3495 23.1299C105.347 25.9728 113.501 30.9602 120.105 37.6597C126.709 44.3593 131.562 52.5689 134.245 61.5768C136.928 70.5847 137.36 80.1191 135.502 89.3536C133.645 98.5881 129.555 107.244 123.586 114.571C117.796 121.677 110.41 127.326 102.031 131.059C101.601 131.251 101.4 131.752 101.585 132.185V132.185Z" fill="white" stroke="white" stroke-width="1.25408" mask="url(#path-2-inside-1_446_508)"/>
+                        <path d="M38.288 71.7552C40.9228 62.5634 44.8587 54.0247 52.321 48.3898C59.7833 42.7548 68.8179 39.8365 78.0236 40.0873C87.2292 40.3381 96.0915 43.7442 103.236 49.7771C110.38 55.8101 115.407 64.1329 117.538 73.4546C115.556 64.7815 108.046 57.7455 101.399 52.1323C94.7516 46.5192 86.506 43.3502 77.941 43.1168C69.376 42.8834 60.9701 45.5987 54.0271 50.8415C47.0841 56.0843 40.7395 63.203 38.288 71.7552Z" fill="white"/>
+                        <path d="M21.6385 62.4646C21.0364 62.2748 20.3932 62.6089 20.215 63.2146C17.3402 72.9838 17.0148 83.3299 19.2797 93.2486C21.6293 103.538 26.6805 112.991 33.9065 120.622C41.1326 128.252 50.2687 133.78 60.3622 136.63C70.0902 139.377 80.364 139.538 90.1864 137.108C90.7997 136.957 91.1635 136.33 91.0046 135.719V135.719C90.8439 135.101 90.2105 134.733 89.5904 134.886C80.1694 137.205 70.3185 137.045 60.9899 134.411C51.2901 131.673 42.5103 126.36 35.5661 119.027C28.622 111.694 23.7678 102.61 21.5098 92.7219C19.3366 83.2045 19.645 73.2777 22.396 63.9021C22.5738 63.2962 22.2407 62.6544 21.6385 62.4646V62.4646Z" fill="white"/>
+                        <path d="M78.0001 81.9793C79.4968 81.9793 80.9322 81.3847 81.9906 80.3264C83.0489 79.2681 83.6435 77.8326 83.6435 76.3359V67.8709C83.6435 66.3742 83.0489 64.9388 81.9906 63.8804C80.9322 62.8221 79.4968 62.2275 78.0001 62.2275C76.5034 62.2275 75.068 62.8221 74.0096 63.8804C72.9513 64.9388 72.3567 66.3742 72.3567 67.8709V76.3359C72.3567 77.8326 72.9513 79.2681 74.0096 80.3264C75.068 81.3847 76.5034 81.9793 78.0001 81.9793ZM75.1784 67.8709C75.1784 67.1225 75.4757 66.4048 76.0049 65.8757C76.534 65.3465 77.2517 65.0492 78.0001 65.0492C78.7485 65.0492 79.4662 65.3465 79.9953 65.8757C80.5245 66.4048 80.8218 67.1225 80.8218 67.8709V76.3359C80.8218 77.0843 80.5245 77.802 79.9953 78.3312C79.4662 78.8603 78.7485 79.1576 78.0001 79.1576C77.2517 79.1576 76.534 78.8603 76.0049 78.3312C75.4757 77.802 75.1784 77.0843 75.1784 76.3359V67.8709ZM89.2868 76.3359C89.2868 75.9618 89.1382 75.6029 88.8736 75.3383C88.609 75.0737 88.2502 74.9251 87.876 74.9251C87.5018 74.9251 87.1429 75.0737 86.8784 75.3383C86.6138 75.6029 86.4651 75.9618 86.4651 76.3359C86.4651 78.581 85.5733 80.7341 83.9858 82.3216C82.3983 83.9091 80.2452 84.801 78.0001 84.801C75.755 84.801 73.6019 83.9091 72.0144 82.3216C70.4269 80.7341 69.5351 78.581 69.5351 76.3359C69.5351 75.9618 69.3864 75.6029 69.1218 75.3383C68.8572 75.0737 68.4984 74.9251 68.1242 74.9251C67.75 74.9251 67.3912 75.0737 67.1266 75.3383C66.862 75.6029 66.7134 75.9618 66.7134 76.3359C66.7159 79.0833 67.7203 81.7353 69.5384 83.795C71.3566 85.8547 73.8635 87.1805 76.5893 87.5239V90.4443H73.7676C73.3934 90.4443 73.0345 90.593 72.77 90.8576C72.5054 91.1221 72.3567 91.481 72.3567 91.8552C72.3567 92.2293 72.5054 92.5882 72.77 92.8528C73.0345 93.1174 73.3934 93.266 73.7676 93.266H82.2326C82.6068 93.266 82.9656 93.1174 83.2302 92.8528C83.4948 92.5882 83.6435 92.2293 83.6435 91.8552C83.6435 91.481 83.4948 91.1221 83.2302 90.8576C82.9656 90.593 82.6068 90.4443 82.2326 90.4443H79.4109V87.5239C82.1367 87.1805 84.6436 85.8547 86.4618 83.795C88.2799 81.7353 89.2843 79.0833 89.2868 76.3359Z" fill="white"/>
+                        </svg>
+                </div>
+                
+                <video class="cp" id="autoplay" style="border-radius: 80%; height: 490; width: 627; display: block;" autoplay loop muted>
+                </video>
+                <video id="live-video" autoplay style=" height: 490; width: 627; display: none;"></video>
+
+                <div class="answering-nrE5vI poppins-medium-white-18px cp" id="state">
+                    Answering...
+                </div>
+            </div>
+            <div class="text-xl4bh6" id="result">
+                <p class="kaushik-hello-jarvis-RREVtL poppins-bold-white-18px">
+                </p>
+            </div>
+            <div class="navigation-bar-xl4bh6 cp">
+                <img alt="nevBG" class="nev-bg-DUdYHJ" src="https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/nevbg-image-1.png" />
+                <div class="navigation-bar-text-DUdYHJ ">
+                    <div class="tutorials-o1p0oG valign-text-middle ">
+                        Tutorials
+                    </div>
+                    <div class="settings-o1p0oG valign-text-middle " onclick="eel.js_page('settings')">
+                        Settings
+                    </div>
+                    <div class="home-o1p0oG valign-text-middle ">
+                        Home
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img id="captured-image" style="display: none;">
+</body>
+<script src="eel.js"></script>
+<script>
+    function messagesUpdate() {
+        eel.js_messages()(function(response) {
+            displayResult(response);
+        });
+    }
+
+    function displayResult(resultList) {
+        var resultDiv = document.getElementById('result');
+        resultList.forEach(function(text) {
+            if (text == "[*end*]") {
+                resultDiv.innerHTML += "<br/>";
+
+            } else {
+                var span = document.createElement('span');
+                span.classList.add('span0', 'poppins-bold-white-18px');
+                span.innerHTML = '<br/> ' + text.split(':')[0] + ": ";
+                resultDiv.appendChild(span);
+                var span = document.createElement('span');
+                span.classList.add('span0', 'poppins-medium-white-18px');
+                span.innerHTML = text.split(':').slice(1).join(':');
+                resultDiv.appendChild(span);
+                resultDiv.scrollTop = resultDiv.scrollHeight;
+            }
+        });
+    }
+
+    // This will Update state
+    function stateUpdate() {
+        eel.js_state()(function(response) {
+            displayState(response);
+        });
+    }
+
+    function displayState(inputData) {
+        document.getElementById('state').innerHTML = inputData;
+    }
+
+    setInterval(messagesUpdate, 10);
+    setInterval(stateUpdate, 10);
+</script>
+
+<style>
+    /* Base styles */
+    
+    @keyframes glow {
+        0% {
+            filter: drop-shadow(0 0 20px rgba(78, 151, 235, 0.9));
+        }
+        25% {
+            filter: drop-shadow(0 0 20px rgb(78, 151, 235, 2));
+        }
+        50% {
+            filter: drop-shadow(0 0 30px rgb(78, 151, 235, 3));
+        }
+        75% {
+            filter: drop-shadow(0 0 20px rgb(78, 151, 235, 2));
+        }
+        100% {
+            filter: drop-shadow(0 0 20px rgba(78, 151, 235, 0.9));
+        }
+    }
+    /* Applying animation to SVG */
+    
+    .glow {
+        animation: glow 5s infinite;
+    }
+</style>
+<script>
+    // Check for browser compatibility
+    if (!('webkitSpeechRecognition' in window)) {
+        alert('Web Speech API is not supported by this browser. Please use a supported browser like Chrome.');
+    } else {
+        // Initialize speech recognition
+
+        // Assuming eel.js_language() returns a Promise that resolves to a language string
+        const recognition = new webkitSpeechRecognition();
+        eel.js_language()().then(lang => {
+            recognition.continuous = true;
+            recognition.interimResults = false;
+            recognition.lang = lang;
+            console.log(lang);
+            console.log(typeof lang);
+        }).catch(error => {
+            console.error("Error retrieving language:", error);
+        });
+
+        // Get the microphone element
+        const mic = document.getElementById('mic');
+        let recognizing = false;
+
+        // Handle microphone click
+        mic.addEventListener('click', () => {
+            if (recognizing) {
+                recognition.stop();
+                recognizing = false;
+                mic.classList.remove('glow');
+                eel.js_state("Available...")
+                var audio = document.getElementById('stopAudio');
+                audio.play();
+            } else {
+                recognition.start();
+                recognizing = true;
+                mic.classList.add('glow');
+                eel.js_state("Listening...");
+                var audio = document.getElementById('startAudio');
+                audio.play();
+            }
+        });
+
+        // Log the transcript to the console and handle restart
+        recognition.onresult = (event) => {
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal) {
+                    eel.js_mic(event.results[i][0].transcript)
+                    console.log(event.results[i][0].transcript);
+                    restartRecognition();
+                }
+            }
+        };
+
+        // Handle recognition errors
+        recognition.onerror = (event) => {
+            console.error(event.error);
+        };
+
+        // Handle recognition end
+        recognition.onend = () => {
+            if (recognizing) {
+                restartRecognition();
+            }
+        };
+
+        // Function to restart recognition
+        function restartRecognition() {
+            recognition.stop();
+            recognition.start();
+        }
+    }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const videoElement = document.getElementById('autoplay');
+        const videoUrl = 'https://raw.githubusercontent.com/Divy0The0Fire/J4E/main/mp4-vmake%20(1).mp4';
+
+        // Function to fetch the video and play it
+        async function fetchAndPlayVideo(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const videoBlob = await response.blob();
+                const videoObjectURL = URL.createObjectURL(videoBlob);
+                videoElement.src = videoObjectURL;
+                videoElement.play();
+            } catch (error) {
+                console.error('Failed to fetch video:', error);
+            }
+        }
+
+        fetchAndPlayVideo(videoUrl);
+    });
+</script>
+
+
+<script>
+    function showNotification(text = "🔔 Your settings have been saved!") {
+        var notification = document.getElementById("notification");
+        notification.textContent = text;
+        notification.style.display = "block";
+        setTimeout(function() {
+            notification.style.display = "none";
+        }, 3000); // Hide after 3 seconds
+    }
+
+    const tutorials = document.querySelector(".tutorials-o1p0oG")
+    tutorials.addEventListener('click', () => {
+        showNotification('🔔 Coming Soon!')
+    })
+    document.addEventListener('contextmenu', event => event.preventDefault());
+</script>
+<style>
+    #notification {
+        display: none;
+        background-color: #ffffff;
+        /* Green background */
+        color: black;
+        font-family: var(--font-family-poppins);
+        /* White text */
+        padding: 15px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        border-radius: 10px;
+        z-index: 1000;
+    }
+</style>
+
+<style>
+    .Assistant {
+        color: rgb(84, 200, 247);
+    }
+    
+    .User {
+        color: rgb(52, 237, 191);
+    }
+    
+    img,
+    video {
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+</style>
+
+<script>
+    // border-radius: 80%; height: 490; width: 627;
+    let videoStream; // Global variable to hold the video stream
+
+    function startVideo() {
+    console.log('startVideo');
+    const video = document.getElementById('live-video');
+    const gif = document.getElementById('autoplay');
+    gif.style.display = "none";
+    video.style.display = "block";
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+            video.srcObject = stream;
+            videoStream = stream; // Save the stream for stopping later
+        })
+        .catch(function (err) {
+            console.error('Error accessing the camera: ', err);
+        });
+    }
+
+
+    function stopVideo() {
+        const video = document.getElementById('live-video');
+        const gif = document.getElementById('autoplay');
+        gif.style.display = "block";
+        video.style.display = "none";
+        if (videoStream) {
+            const tracks = videoStream.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+    }
+
+    function capture() {
+        const video = document.getElementById('live-video');
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        const base64Image = canvas.toDataURL('image/png');
+        document.getElementById('captured-image').src = base64Image;
+        document.getElementById('captured-image').style.display = 'block';
+        console.log("Sending image to Python");
+        eel.js_capture(base64Image); // Send base64 image to Python
+    }
+    eel.expose(startVideo);
+    eel.expose(stopVideo); // Expose stopVideo function
+    eel.expose(capture);
+
+</script>

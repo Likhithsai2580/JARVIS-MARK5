@@ -40,7 +40,7 @@ def ocr_off(target_string, double_click=False, target_region=None):
                 if double_click:
                     pg.sleep(0.35)  # Adjust delay for double-click accuracy
                     pg.click(center_x, center_y)
-                return f"{action} {target_string} button."
+                return f"ocr {action} {target_string} button"
     else:
         return f"No button named '{target_string}' found."
 

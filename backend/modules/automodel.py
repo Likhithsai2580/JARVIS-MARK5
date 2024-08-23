@@ -1,6 +1,7 @@
 from backend.modules.search import SEARCH
 from backend.modules.llms import AIClient, pure_llama3
-from filter import filter_python, filter_json
+from filter import filter_python
+from backend.modules.Powerpointer.main import generate_powerpoint
 from backend.AI.dealers import dealing
 import cv2
 import pyautogui
@@ -16,6 +17,14 @@ from backend.modules.codebrew import CodeBrew, codebrewPrompt, samplePrompt
 from backend.modules.llms import pure_llama3 as LLM
 import platform
 import json
+from backend.modules.speak.speakmid import TTS as speakon
+from backend.modules.speak.speakoff import off as speakoff
+
+def speak(text):
+    try:
+        speakon(text)
+    except:
+        speakoff(text)
 
 def get_os_info():
     # Get the OS name
@@ -46,28 +55,40 @@ extension_prompt = """
 """
 
 prompt_main = """
-Given the user query, identify and respond with the relevant tags from the following list: [automation, real-time-knowledge, img-dealing, website-dealing, screanshare, video-dealing, pdf-dealing, excel-dealing, powerpoint-dealing, chat, application-dev, web-app, click]. If the query involves multiple tasks, combine the appropriate tags with a plus sign. Respond with only the tags and nothing else.
+Given the user query, identify and respond with the relevant tags from the following list: [realtime-webcam, automation, real-time-knowledge, img-dealing, website-dealing, screenshare, video-dealing, pdf-dealing, excel-dealing, powerpoint-dealing, chat, application-dev, web-app, click]. If the query involves multiple tasks, combine the appropriate tags with a plus sign. Respond with only the tags and nothing else.
 Examples:
 Query: "Read the selected PDF and summarize it."
 Response: pdf-dealing+automation
 
-Query: "i want to share the screen"
-Response": sharescreen
+Query: "I want to share the screen"
+Response: screenshare
 
-Query: "open youtube"
+Query: "Open YouTube"
 Response: automation
 
-Query: "make a portfolio"
+Query: "Make a portfolio"
 Response: website-dealing
 
-Query: "who won elections"
+Query: "Who won the elections"
 Response: real-time-knowledge
 
-Query: "download video from website"
+Query: "Download video from website"
 Response: website-dealing
 
-Query: "study this video"
+Query: "Study this video"
 Response: video-dealing
+
+Query: "Create a web application for task management"
+Response: web-app
+
+Query: "Develop a desktop app for note-taking"
+Response: application-dev
+
+Query: "Can you see what I'm holding?"
+Response: realtime-webcam+img-dealing
+
+Query: "Analyze the PDF and create a PowerPoint presentation based on it"
+Response: pdf-dealing+powerpoint-dealing
 """
 
 automation_prompt = """
@@ -142,7 +163,7 @@ Replace param1, param2, etc., with the actual parameters required by the extensi
 Now, feel free to utilize any extension whenever needed by providing corresponding Python code only.
 
 it seems user is using
-"""+get_os_info()
+"""+get_os_info()+get_extension_info()
 
 prompt_distiguisher_img = """
 Please determine the user's intent based on their request:
@@ -163,6 +184,19 @@ Example User Requests:
 if the request made by user is unclear (i.e confusion b/w camera and screen) respond with unclear_request
 Use the provided examples as a guide to classify and respond to the user's request.
 """
+
+powerpoint_distiguisher_prompt = """You are an advanced language model capable of working with PowerPoint presentations. Your responses should be based on the context provided by the user's request. To handle user requests accurately, determine whether the user is asking to:
+
+Generate a New PowerPoint Presentation: If the user asks for help creating a new PowerPoint presentation, including generating slides, adding content, or creating a presentation from scratch, respond with generate_pptx.
+
+Perform Tasks with an Existing PowerPoint File: If the user asks for help with tasks related to an existing PowerPoint file, such as modifying, editing, or analyzing an existing presentation, respond with task_with_pptx.
+
+For example:
+
+User asks: "Can you create a presentation on climate change?" → Response: generate_pptx
+User asks: "Can you update the title slide of my existing presentation?" → Response: task_with_pptx
+Always ensure that your response accurately reflects the user's needs based on whether they are creating a new presentation or working with an existing one."""
+
 def run_codebrew(user_input):
     # Initialize the LLM instance with the desired configurations
     llm = LLM(
@@ -362,7 +396,10 @@ def screanshare():
     SCREENSHARE()
 
 def live_webcam():
-    EYE()
+    result = EYE()
+    if result == "stop":
+        return "close_webcam"
+
 
 def video_dealing(user_input):
     record_screen()
@@ -375,7 +412,11 @@ def excel_dealing(user_input):
     dealing.excel_dealer(user_input)
 
 def powerpoint_dealing(user_input):
-    dealing.powerpoint_dealer(user_input)
+    response = AIClient.safe_predict(powerpoint_distiguisher_prompt+f" {user_input}")
+    if "generate_pptx" in response:
+        generate_powerpoint(user_input=user_input)
+    else:
+        dealing.powerpoint_dealer(user_input)
 
 def chat(user_input):
     return AIClient.llama(user_input)
@@ -395,67 +436,114 @@ def Operate(user_input):
     logging.info(f"AI response: {response}")
     
     try:
-        if "automation" in response:
-            automation(user_input)
+        # Split the response into individual tags
+        tags = response.split('+')
+        results = []
 
-        elif "click" in response:
-            text = str(user_input)
-            text = text.replace("jarvis", "")
-            text = text.replace("click", "")
-            text = text.replace("on", "")
-            if "double" in text:
-                try:
-                    text = text.replace("double","")
-                    from backend.modules.ocr.ocron import ocr_on
-                    return ocr_on(text, True)
-                except:
-                    text = text.replace("double","")
-                    from backend.modules.ocr.ocroff import ocr_off
-                    return ocr_off(text, True) 
+        for tag in tags:
+            tag = tag.strip()  # Remove any whitespace
+            if "automation" in tag:
+                result = automation(user_input)
+                speak(result)
+                results.append("automation")
+            
+            elif "realtime-webcam" in tag:
+                speak("OK sir, trying to open the webcam")
+                result = live_webcam()
+                if result == "close_webcam":
+                    speak("Closing the webcam")
+                    return "close_webcam"
+                results.append("realtime-webcam")
+
+            elif "click" in tag:
+                text = str(user_input)
+                text = text.replace("jarvis", "")
+                text = text.replace("click", "")
+                text = text.replace("on", "")
+                speak("OK sir, trying to click on the button")
+                if "double" in text:
+                    try:
+                        text = text.replace("double","")
+                        from backend.modules.ocr.ocron import ocr_on
+                        results.append(ocr_on(text, True))
+                    except:
+                        text = text.replace("double","")
+                        from backend.modules.ocr.ocroff import ocr_off
+                        results.append(ocr_off(text, True)) 
+                else:
+                    try:
+                        text = text.replace("","")
+                        from backend.modules.ocr.ocron import ocr_on
+                        results.append(ocr_on(text, True))
+                    except:
+                        text = text.replace("","")
+                        from backend.modules.ocr.ocroff import ocr_off
+                        results.append(ocr_off(text, True)) 
+
+            elif "real-time-knowledge" in tag:
+                result = SEARCH(user_input)
+                speak(result)
+                results.append("real-time-knowledge")
+            
+            elif "img-dealing" in tag:
+                result = img_dealing(user_input)
+                speak(result)
+                results.append("img-dealing")
+            
+            elif "website-dealing" in tag:
+                result = website_dealing(user_input)
+                speak(result)
+                results.append("website-dealing")
+            
+            elif "screenshare" in tag:
+                speak("OK sir, trying to share the screen")
+                screanshare()
+                results.append("screenshare")
+            
+            elif "video-dealing" in tag:
+                speak("OK sir, trying to record the video")
+                result = video_dealing(user_input)
+                speak(result)
+                results.append("video-dealing")
+            
+            elif "pdf-dealing" in tag:
+                speak("OK sir, trying to deal with the pdf")
+                pdf_dealing(user_input)
+                results.append("pdf-dealing")
+            
+            elif "excel-dealing" in tag:
+                speak("OK sir, trying to deal with the excel")
+                excel_dealing(user_input)
+                results.append("excel-dealing")
+            
+            elif "powerpoint-dealing" in tag:
+                speak("OK sir, trying to deal with the powerpoint")
+                powerpoint_dealing(user_input)
+                results.append("powerpoint-dealing")
+            
+            elif "chat" in tag:
+                result = chat(user_input)
+                speak(result)
+                results.append("chat")
+            
+            elif "application-dev" in tag:
+                speak("OK sir, trying to develop the application")
+                application_dev(user_input)
+                results.append("application-dev")
+
+            elif "web-app" in tag:
+                speak("OK sir, trying to develop the web application")
+                web_app(user_input)
+                results.append("web-app")
+
             else:
-                try:
-                    text = text.replace("","")
-                    from backend.modules.ocr.ocron import ocr_on
-                    return ocr_on(text, True)
-                except:
-                    text = text.replace("","")
-                    from backend.modules.ocr.ocroff import ocr_off
-                    return ocr_off(text, True) 
-        elif "real-time-knowledge" in response:
-            SEARCH(user_input)
-        
-        elif "img-dealing" in response:
-            img_dealing(user_input)
-        
-        elif "website-dealing" in response:
-            website_dealing(user_input)
-        
-        elif "screenshare" in response:
-            screanshare()
-        
-        elif "video-dealing" in response:
-            video_dealing(user_input)
-        
-        elif "pdf-dealing" in response:
-            pdf_dealing(user_input)
-        
-        elif "excel-dealing" in response:
-            excel_dealing(user_input)
-        
-        elif "powerpoint-dealing" in response:
-            powerpoint_dealing(user_input)
-        
-        elif "chat" in response:
-            chat(user_input)
-        
-        elif "application-dev" in response:
-            application_dev(user_input)
-        
-        elif "web-app" in response:
-            web_app(user_input)
-        
-        else:
-            logging.warning(f"Unhandled response: {response}")
-            return "Sorry, I don't understand the request."
+                logging.warning(f"Unhandled tag: {tag}")
+                speak(f"Sorry, I don't understand the request for {tag}.")
+                results.append(f"Unhandled request: {tag}")
+
+        return '+'.join(results)  # Return all executed actions
+
     except Exception as e:
-        return "Sorry, a error occurred while processing the request."
+        logging.error(f"Error processing request: {str(e)}")
+        speak("Sorry, an error occurred while processing the request.")
+        return f"Error: {str(e)}"
