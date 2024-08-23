@@ -11,7 +11,7 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 1. Fork the repository on GitHub.
 2. Clone your fork locally:
    ```
-   git clone https://github.com/your-username/JARVIS-MARK5.git
+   git clone https://github.com/Likhithsai2580/JARVIS-MARK5.git
    ```
 3. Create a new branch for your feature or bug fix:
    ```
