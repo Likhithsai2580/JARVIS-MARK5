@@ -339,6 +339,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) fi
 ## Acknowledgements
 
 Special thanks to all contributors and developers who helped build and improve JARVIS-MARK5.
-
-
-Let me know if you'd like further modifications!
