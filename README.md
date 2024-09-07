@@ -12,7 +12,6 @@ JARVIS-MARK5 is an advanced AI-powered assistant that combines various modules a
   - [Perplexica](#perplexica)
   - [PowerPoint Generator](#powerpoint-generator)
   - [GitHub Integration](#github-integration)
-  - [Local LLM Support](#local-llm-support)
   - [Multi-modal Interactions](#multi-modal-interactions)
 - [Extending JARVIS-MARK5](#extending-jarvis-mark5)
 - [Advanced Features](#advanced-features)
@@ -30,7 +29,6 @@ JARVIS-MARK5 is an advanced AI-powered assistant that combines various modules a
 - AI-powered search engine (Perplexica) for intelligent information retrieval
 - Automated PowerPoint generation based on user prompts
 - Comprehensive GitHub integration for seamless development workflows
-- Local Large Language Model support for enhanced privacy and offline capabilities
 - Multi-modal interactions supporting text, speech, and image inputs/outputs
 - Extensible architecture allowing easy addition of new modules and functionalities
 - Advanced natural language processing for complex query understanding
@@ -71,16 +69,12 @@ JARVIS-MARK5 is an advanced AI-powered assistant that combines various modules a
 ### Main Configuration
 
 Create a `config.json` file in the `config` directory with the following structure:
+ocr link can be taken from [here](https://colab.research.google.com/drive/182IO3kVuEtX2fX3RgB4G_nlr_hkFKriD?usp=sharing)
 
 ```json
 {
-    "OBJ_DETECTION_URL": "http://your-object-detection-service.com/api",
     "OCR_LINK": "http://your-ocr-service.com/api",
-    "DEFAULT_LLM": "gpt-3.5-turbo",
-    "USE_LOCAL_LLM": false,
-    "LOCAL_LLM_URL": "http://localhost:8000",
-    "ENABLE_SPEECH": true,
-    "ENABLE_IMAGE_PROCESSING": true
+    "GROQ_API": "YOUR GROK API HERE"
 }
 ```
 
@@ -88,13 +82,7 @@ Adjust the values according to your setup and preferences.
 
 ### API Keys
 
-Create a `config.py` file in the root directory and add your API keys:
-
-```python
-groq_api = "your-groq-api-key"
-openai_api = "your-openai-api-key"
-github_token = "your-github-personal-access-token"
-```
+If you use extensions you need to study the python code for that extension on how to insert kekys
 
 ### Perplexica Configuration
 
@@ -207,18 +195,6 @@ JARVIS-MARK5 provides various GitHub-related functionalities, including:
 This integration allows for seamless development workflows directly from the JARVIS-MARK5 interface.
 
 For more details on GitHub integration, refer to the [GitHub configuration file](extensions/config_all.json).
-
-### Local LLM Support
-
-JARVIS-MARK5 can be configured to use local Large Language Models for enhanced privacy and offline capabilities. This feature allows users to run language models on their own hardware, reducing reliance on external APIs.
-
-To enable local LLM support:
-1. Set up a local LLM server (e.g., using [LocalAI](https://github.com/go-skynet/LocalAI))
-2. Update the `config.json` file with:
-   ```json
-   "USE_LOCAL_LLM": true,
-   "LOCAL_LLM_URL": "http://localhost:8000"
-   ```
 
 ### Multi-modal Interactions
 

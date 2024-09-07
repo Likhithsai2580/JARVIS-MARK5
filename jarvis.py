@@ -1,7 +1,7 @@
 import threading
 from backend.modules.automodel import Operate
 from backend.modules.basic.listenpy import Listen
-
+import os
 import mtranslate as mt
 from threading import Lock
 import os
@@ -11,6 +11,25 @@ import pyautogui
 import base64
 from backend.modules.extra import GuiMessagesConverter, LoadMessages
 from dotenv import load_dotenv
+
+def get_api():
+    try:
+      
+        with open('config/config.json') as config_file:
+            config = json.load(config_file)
+            API = config.get('GROQ_API')
+            if API is None:
+                raise ValueError("GROQ_API URL not found in config file")
+            return API
+    except FileNotFoundError:
+        print("Config file not found.")
+    except json.JSONDecodeError:
+        print("Error decoding JSON in config file.")
+    except Exception as e:
+        print(f"Error reading config file: {e}")
+    return None
+
+os.environ['GROQ_API'] = get_api()
 
 def run_docker():
     import os

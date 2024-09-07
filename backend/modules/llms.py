@@ -72,7 +72,7 @@ def pure_llama3(conv):
 CACHE_DIR = os.getenv('CACHE_DIR', 'Cache')
 MODEL_LLM = os.getenv('MODEL_LLM', 'llama3-8b-8192')
 MODEL_EMBED = os.getenv('MODEL_EMBED', 'nomic-embed-text')
-GROQ_API = os.getenv("GROQ_API", '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')
+GROQ_API = os.getenv("GROQ_API")
 VECTOR_DB_NAME = 'conversations'
 
 # Initialize components

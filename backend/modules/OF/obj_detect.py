@@ -1,47 +1,12 @@
-#https://colab.research.google.com/drive/1xenMnAqGydJnsNV5C9aQ4ysrOCdNgXdf?usp=sharing
-
 import cv2
-import requests
-import json
-import time
 import base64
+from groq import Groq
+import os
 
-cache = {}
-
-def get_url():
-    """Fetches the camera URL from the configuration file and caches it."""
-    try:
-        # Check if URL exists in cache and is not expired
-        if 'url' in cache and cache['url'][1] > time.time():
-            return cache['url'][0]
-        
-        with open('config/config.json') as config_file:
-            config = json.load(config_file)
-            url = config.get('OBJ_DETECTION_URL')
-            if url is None:
-                raise ValueError("camera URL not found in config file")
-            # Cache the URL with expiration time of 1 hour
-            cache['url'] = (url, time.time() + 3600)
-            return url
-    except FileNotFoundError:
-        print("Config file not found.")
-    except json.JSONDecodeError:
-        print("Error decoding JSON in config file.")
-    except Exception as e:
-        print(f"Error reading config file: {e}")
-    return None
-
-def capture_and_send_image():
-    """Captures an image from the webcam, encodes it, and sends it to the server."""
-    api_url = get_url()
+API = os.getenv("GROQ_API")
+def capture_and_recognize_image():
+    """Captures an image from the webcam, encodes it, and sends it for recognition using the Groq API."""
     
-    if api_url is None:
-        print("No API URL available.")
-        return
-    
-    # Replace this URL with your ngrok URL or endpoint
-    ngrok_url = f"{api_url}/stream"
-
     # Initialize webcam
     cap = cv2.VideoCapture(0)
 
@@ -58,16 +23,45 @@ def capture_and_send_image():
     # Encode frame to JPEG
     _, buffer = cv2.imencode('.jpg', frame)
     jpg_as_text = base64.b64encode(buffer).decode('utf-8')
+    
+    # Release webcam after capturing the image
+    cap.release()
+    cv2.destroyAllWindows()
 
-    # Send frame to server
+    # Save the image temporarily (optional step)
+    temp_img_filename = 'captured_image.jpg'
+    with open(temp_img_filename, 'wb') as f:
+        f.write(base64.b64decode(jpg_as_text))
+    
+    # Perform image recognition using the Groq API
     try:
-        response = requests.post(ngrok_url, data={'image': jpg_as_text})
-        if response.status_code == 200:
-            print("Frame sent successfully")
-        else:
-            print(f"Failed to send frame: {response.status_code}")
-    except requests.RequestException as e:
-        print(f"Request error: {e}")
-    finally:
-        cap.release()
-        cv2.destroyAllWindows()
+        # Initialize the Groq client
+        client = Groq(api_key=api)
+
+        # Send the image for recognition (replace with actual hosting URL if needed)
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": "What's in this image?"},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"file://{temp_img_filename}",  # Using local file path
+                            },
+                        },
+                    ],
+                }
+            ],
+            model="llava-v1.5-7b-4096-preview",
+        )
+
+        # Output the recognition result
+        print("Recognition Result:", chat_completion.choices[0].message.content)
+
+    except Exception as e:
+        print(f"Error during image recognition: {e}")
+
+# Capture the image and perform recognition
+capture_and_recognize_image()
