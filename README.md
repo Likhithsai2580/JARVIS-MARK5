@@ -1,92 +1,129 @@
 # JARVIS-MARK5
 
-JARVIS-MARK5 is an advanced AI-powered assistant that combines various modules and functionalities to provide a comprehensive user experience. It's designed to be extensible, powerful, and user-friendly.
+JARVIS-MARK5 is an advanced AI-powered assistant designed to combine multiple modules and functionalities for a comprehensive and versatile user experience. Inspired by Iron Man's JARVIS, this AI assistant integrates powerful tools such as GPT-4, Groq, and other LLMs, with features spanning automation, intelligent search, and multi-modal interactions. JARVIS-MARK5 is built with scalability in mind and can be extended and customized easily, making it ideal for developers, researchers, and enthusiasts who want to push the boundaries of AI-driven assistants.
 
 ## Table of Contents
 
 - [Features](#features)
 - [Installation](#installation)
 - [Configuration](#configuration)
+  - [Main Configuration](#main-configuration)
+  - [API Keys](#api-keys)
+  - [Perplexica Configuration](#perplexica-configuration)
+  - [Database Configuration](#database-configuration)
 - [Usage](#usage)
+  - [Basic Commands](#basic-commands)
+  - [Module Commands](#module-commands)
 - [Modules](#modules)
   - [Perplexica](#perplexica)
   - [PowerPoint Generator](#powerpoint-generator)
   - [GitHub Integration](#github-integration)
   - [Multi-modal Interactions](#multi-modal-interactions)
 - [Extending JARVIS-MARK5](#extending-jarvis-mark5)
+  - [Adding Existing Extensions](#adding-existing-extensions)
+  - [Developing New Extensions](#developing-new-extensions)
 - [Advanced Features](#advanced-features)
+  - [Natural Language Understanding](#natural-language-understanding)
+  - [Real-time Data Analysis](#real-time-data-analysis)
+  - [Task Automation](#task-automation)
 - [Performance Optimization](#performance-optimization)
 - [Security Considerations](#security-considerations)
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
+  - [Code Style](#code-style)
+  - [Testing](#testing)
 - [Roadmap](#roadmap)
-- [Frequently Asked Questions](#frequently-asked-questions)
+- [FAQ](#frequently-asked-questions)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 
+---
+
 ## Features
 
-- AI-powered search engine (Perplexica) for intelligent information retrieval
-- Automated PowerPoint generation based on user prompts
-- Comprehensive GitHub integration for seamless development workflows
-- Multi-modal interactions supporting text, speech, and image inputs/outputs
-- Extensible architecture allowing easy addition of new modules and functionalities
-- Advanced natural language processing for complex query understanding
-- Customizable user interface for personalized experiences
-- Real-time data analysis and visualization capabilities
-- Integration with popular productivity tools and APIs
+JARVIS-MARK5 offers a wide range of features:
+
+- **AI-powered Search Engine**: The Perplexica module, integrated with GPT-4 and Groq, for intelligent and context-aware information retrieval.
+- **Automated PowerPoint Generator**: Generates presentations based on natural language input.
+- **GitHub Integration**: Seamless integration for interacting with GitHub repositories (cloning, creating, committing, etc.).
+- **Multi-modal Interactions**: Supports text, speech, and image-based interactions.
+- **Extensible Architecture**: Easily add new modules or modify existing ones to suit your needs.
+- **Natural Language Processing (NLP)**: Advanced capabilities to understand and process complex user queries.
+- **Real-time Data Analysis & Visualization**: Analyze data and generate real-time insights and visual representations.
+- **Customizable UI**: Personalize the user interface to suit individual preferences and workflows.
+- **Voice Recognition and Text-to-Speech**: Switch between voice and text input/output seamlessly.
+- **Cross-platform Compatibility**: Runs on Windows, macOS, and Linux.
+- **IoT and API Integration**: Integrate with third-party APIs and smart devices.
 
 ## Installation
 
-1. Ensure you have Python 3.8+ installed on your system.
+To install JARVIS-MARK5, follow these steps:
 
-2. Clone the repository:
+1. **Ensure Python 3.8+ is installed**:
+   Make sure that you have the correct version of Python installed by running:
+   ```bash
+   python --version
+   ```
+
+2. **Clone the repository**:
    ```bash
    git clone https://github.com/Likhithsai2580/JARVIS-MARK5.git
    cd JARVIS-MARK5
    ```
 
-3. Create and activate a virtual environment:
+3. **Create and activate a virtual environment**:
+   On Linux/macOS:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+   source venv/bin/activate
+   ```
+   On Windows:
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate
    ```
 
-4. Install the required dependencies:
+4. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-5. Set up the configuration files as described in the [Configuration](#configuration) section.
+5. **Configure settings**: Set up your configuration files as described in the [Configuration](#configuration) section below.
 
-6. (Optional) Install additional dependencies for specific features:
+6. **(Optional) Install additional features**:
+   To install extra dependencies for specific modules, run:
    ```bash
    pip install -r requirements-extra.txt
    ```
+
+---
 
 ## Configuration
 
 ### Main Configuration
 
-Create a `config.json` file in the `config` directory with the following structure:
-ocr link can be taken from [here](https://colab.research.google.com/drive/182IO3kVuEtX2fX3RgB4G_nlr_hkFKriD?usp=sharing)
+The core configuration file for JARVIS-MARK5 is `config.json`, located in the `config` directory. This file contains basic settings and can be customized based on your requirements.
 
+Here is an example `config.json` structure:
 ```json
 {
     "OCR_LINK": "http://your-ocr-service.com/api",
-    "GROQ_API": "YOUR GROK API HERE"
+    "GROQ_API": "YOUR_GROQ_API_KEY"
 }
 ```
 
-Adjust the values according to your setup and preferences.
+Update the `OCR_LINK` with the appropriate OCR service and provide your Groq API key.
 
 ### API Keys
 
-If you use extensions you need to study the python code for that extension on how to insert kekys
+Many of JARVIS-MARK5’s functionalities require API keys, such as for OpenAI and Groq. Ensure that you have signed up for these services and obtained API keys. You will then need to include them in the respective configuration files, as described in the section for each module.
 
 ### Perplexica Configuration
 
-For the Perplexica module, rename `sample.config.toml` to `config.toml` in the `backend/AI/Perplexica` directory and fill in the necessary fields:
+The Perplexica module is the AI-powered search engine within JARVIS-MARK5. To configure Perplexica:
+
+1. Rename `sample.config.toml` to `config.toml` in `backend/AI/Perplexica`.
+2. Edit the file to include your API keys and preferences:
 
 ```toml
 [GENERAL]
@@ -105,339 +142,203 @@ OLLAMA = "http://localhost:11434"
 
 ### Database Configuration
 
-JARVIS-MARK5 uses a PostgreSQL database to store conversation history and other relevant data. This allows for persistent storage and retrieval of information across sessions.
+JARVIS-MARK5 uses PostgreSQL to store conversation history and other data persistently. 
 
 #### PostgreSQL Setup
 
-1. Ensure you have PostgreSQL installed on your system.
-2. Create a new database named `memory_agent`.
-3. Set up a user with the following credentials:
+1. **Install PostgreSQL**: Make sure PostgreSQL is installed and running.
+2. **Create a database**: 
+   ```bash
+   createdb memory_agent
+   ```
+3. **Set up credentials**:
    - Username: `admin`
    - Password: `admin`
-4. Make sure the PostgreSQL server is running on `localhost` and port `5432`.
+   
+   Adjust the database credentials in the `DB_PARAMS` in `backend/modules/llms.py` or set the environment variables:
+   - `DB_NAME`
+   - `DB_USER`
+   - `DB_PASSWORD`
+   - `DB_HOST`
+   - `DB_PORT`
 
-You can customize these settings by modifying the `DB_PARAMS` dictionary in `backend/modules/llms.py` or by setting the following environment variables:
-- `DB_NAME`
-- `DB_USER`
-- `DB_PASSWORD`
-- `DB_HOST`
-- `DB_PORT`
-
-#### Why PostgreSQL?
-
-PostgreSQL is used in JARVIS-MARK5 for several reasons:
-1. **Persistent Storage**: It allows the system to maintain conversation history and other data across multiple sessions.
-2. **Efficient Querying**: PostgreSQL's powerful querying capabilities enable quick retrieval of relevant information.
-3. **Scalability**: As the amount of data grows, PostgreSQL can handle large datasets efficiently.
-4. **Data Integrity**: PostgreSQL ensures data consistency and provides ACID compliance.
-
-#### How It Works
-
-1. When JARVIS-MARK5 starts, it establishes a connection to the PostgreSQL database.
-2. Each conversation (user input and AI response) is stored in the `conversations` table.
-3. The system can retrieve past conversations to provide context for new queries.
-4. The database is also used to store embeddings for efficient semantic search capabilities.
-
-By using a database, JARVIS-MARK5 can learn from past interactions and provide more contextually relevant responses over time.
+---
 
 ## Usage
 
-To start JARVIS-MARK5:
+Once everything is installed and configured, you can start JARVIS-MARK5 by running the following command:
 
-1. Ensure all configurations are set up correctly.
-2. Activate your virtual environment if not already active.
-3. Run the main application:
-   ```bash
-   python jarvis.py
-   ```
+```bash
+python jarvis.py
+```
 
 ### Basic Commands
 
-- To perform a search: "Search for [query]"
-- To generate a PowerPoint: "Create a presentation about [topic]"
-- To use GitHub features: "Clone repository [repo_name]" or "Create a new repository named [name]"
-- To switch between text and voice input: "Enable voice input" or "Disable voice input"
+- **Search**: `Search for [query]`
+- **Generate PowerPoint**: `Create a presentation about [topic]`
+- **GitHub Command**: `Clone repository [repo_name]` or `Create repository named [name]`
+- **Voice Input/Output**: `Enable voice input` or `Disable voice input`
+
+### Module Commands
+
+Each module in JARVIS-MARK5 has its own set of commands. For example, to use the Perplexica search engine, you can simply input a natural language query, and the module will return relevant results.
+
+---
 
 ## Modules
 
 ### Perplexica
 
-Perplexica is an AI-powered search engine integrated into JARVIS-MARK5. It provides advanced search capabilities and can be used as a standalone application.
+The **Perplexica** module acts as an intelligent search engine that uses embeddings and similarity measures to retrieve relevant information.
 
-Key features:
-- Semantic search using embeddings
-- Integration with multiple search backends
-- Customizable ranking algorithms
+- **Key Features**:
+  - Semantic search using transformer-based embeddings.
+  - Multiple search backend integration (SearxNG, Ollama, etc.).
+  - Customizable ranking algorithms.
 
-For more information on Perplexica, refer to the [Perplexica README](backend/AI/Perplexica/README.md).
+For more details, see the [Perplexica README](backend/AI/Perplexica/README.md).
 
 ### PowerPoint Generator
 
-JARVIS-MARK5 includes a PowerPoint generation module that can create presentations based on user prompts.
+This module allows users to generate entire PowerPoint presentations from a simple prompt.
 
-Key features:
-- Automatic content generation and structuring
-- Customizable templates and styles
-- Integration with image generation APIs for visuals
-
-For more information on the PowerPoint generator, refer to the [PowerPointer README](backend/modules/Powerpointer/README.md).
+- **Key Features**:
+  - Automatic slide generation with customizable templates.
+  - Integration with image generation APIs for slide visuals.
 
 ### GitHub Integration
 
-JARVIS-MARK5 provides various GitHub-related functionalities, including:
+With built-in GitHub integration, JARVIS-MARK5 allows you to manage your repositories directly from the interface.
 
-- Searching repositories
-- Cloning repositories
-- Uploading projects to GitHub
-- Creating repositories
-- Retrieving commits and issues
+- **Key Features**:
+  - Clone, create, and manage repositories.
+  - Retrieve commits and issues.
+  - Push and pull changes seamlessly.
 
-This integration allows for seamless development workflows directly from the JARVIS-MARK5 interface.
-
-For more details on GitHub integration, refer to the [GitHub configuration file](extensions/config_all.json).
+For configuration details, check the [GitHub integration guide](extensions/config_all.json).
 
 ### Multi-modal Interactions
 
-JARVIS-MARK5 supports various input and output modalities:
+JARVIS-MARK5 supports multiple forms of input and output, allowing users to interact with it through:
+- **Text-based** queries and responses.
+- **Voice-based** interactions.
+- **Image analysis** and generation.
 
-- Text: Traditional text-based interactions
-- Speech: Voice input and text-to-speech output
-- Image: Image analysis and generation capabilities
+You can configure or switch between these modalities in the `config.json` file.
 
-To enable or disable specific modalities, adjust the settings in `config.json`.
+---
 
 ## Extending JARVIS-MARK5
 
-JARVIS-MARK5 is designed to be easily extensible. This section covers how to add existing extensions and develop new ones.
-
 ### Adding Existing Extensions
 
-To add an existing extension to JARVIS-MARK5:
+To install an existing extension:
 
-1. Navigate to the `extensions` directory:
-   ```bash
-   cd extensions
-   ```
-
-2. Clone or download the extension repository:
-   ```bash
-   git clone https://github.com/username/jarvis-extension-name.git
-   ```
-
-3. Install any required dependencies:
-   ```bash
-   pip install -r jarvis-extension-name/requirements.txt
-   ```
-
-4. Add the extension to the `config.json` file in the root directory:
-   ```json
-   {
-     "extensions": [
-       // ... other extensions ...
-       "jarvis-extension-name"
-     ]
-   }
-   ```
-
-5. Restart JARVIS-MARK5 for the changes to take effect.
+1. Navigate to the `extensions` directory.
+2. Clone the desired extension repository.
+3. Install its dependencies.
+4. Add the extension to the `config.json` file.
 
 ### Developing New Extensions
 
-To develop a new extension for JARVIS-MARK5:
+If you want to build your own extension, follow these steps:
+1. Create a new directory for your extension.
+2. Define your extension in the `__init__.py` file.
+3. Include the necessary configuration in `config.json`.
+4. Document your extension
 
-1. Create a new directory for your extension in the `extensions` folder:
-   ```bash
-   mkdir extensions/my-new-extension
-   cd extensions/my-new-extension
-   ```
+’s API endpoints (if applicable).
 
-2. Create the following files in your extension directory:
-   - `__init__.py`: Main entry point for your extension
-   - `config.json`: Configuration file for your extension
-   - `README.md`: Documentation for your extension
+For a detailed tutorial, see the [Extensions Developer Guide](docs/extensions_guide.md).
 
-3. In `__init__.py`, define your extension class:
-   ```python
-   from jarvis.core import Extension
-
-   class MyNewExtension(Extension):
-       def __init__(self, config):
-           super().__init__(config)
-           # Initialize your extension here
-
-       def process_command(self, command):
-           # Implement your extension's command processing logic
-           pass
-
-   def setup(jarvis):
-       config = jarvis.load_config('my-new-extension/config.json')
-       jarvis.register_extension(MyNewExtension(config))
-   ```
-
-4. In `config.json`, define any configuration options for your extension:
-   ```json
-   {
-     "name": "My New Extension",
-     "version": "1.0.0",
-     "description": "A brief description of your extension",
-     "options": {
-       "option1": "default_value",
-       "option2": 42
-     }
-   }
-   ```
-
-5. Document your extension in the `README.md` file, including its purpose, usage, and any dependencies.
-
-6. Add your extension to the main JARVIS-MARK5 `config.json` file as described in the "Adding Existing Extensions" section.
-
-7. Test your extension thoroughly and consider submitting it to the JARVIS-MARK5 extensions repository for others to use.
+---
 
 ## Advanced Features
 
 ### Natural Language Understanding
 
-JARVIS-MARK5 employs advanced natural language understanding (NLU) techniques to interpret user queries and commands more accurately. This includes:
+JARVIS-MARK5 incorporates advanced NLU to accurately interpret user commands and questions. The NLP pipeline leverages pre-trained models from GPT-4 and other LLMs.
 
-- Intent recognition
-- Entity extraction
-- Sentiment analysis
-- Context-aware interpretation
+### Real-time Data Analysis
 
-To fine-tune the NLU capabilities for your specific use case, you can modify the `nlu_config.json` file in the `config` directory.
+Leverage JARVIS-MARK5's data analysis capabilities to analyze and visualize real-time data, powered by Python libraries such as Pandas, NumPy, and Matplotlib.
 
-### Custom Skill Development
+### Task Automation
 
-You can create custom skills for JARVIS-MARK5 to extend its capabilities:
+Automate repetitive tasks, such as setting reminders, managing calendars, or generating reports, using JARVIS-MARK5’s task scheduling system.
 
-1. Create a new Python file in the `skills` directory (e.g., `my_custom_skill.py`).
-2. Define your skill class, inheriting from the base `Skill` class:
-
-   ```python
-   from jarvis.core import Skill
-
-   class MyCustomSkill(Skill):
-       def __init__(self):
-           super().__init__("my_custom_skill")
-
-       def execute(self, params):
-           # Implement your skill logic here
-           pass
-   ```
-
-3. Register your skill in the `skills_registry.py` file.
-
-### API Integration
-
-JARVIS-MARK5 supports integration with various external APIs. To add a new API:
-
-1. Create an API wrapper in the `api_wrappers` directory.
-2. Add the API configuration to the `config.json` file.
-3. Use the API in your modules or skills as needed.
+---
 
 ## Performance Optimization
 
-To ensure optimal performance of JARVIS-MARK5:
+To improve performance, consider:
 
-1. **Caching**: Implement caching mechanisms for frequently accessed data or API responses.
-2. **Asynchronous Processing**: Use asynchronous programming techniques for I/O-bound operations.
-3. **Database Indexing**: Optimize database queries by creating appropriate indexes.
-4. **Load Balancing**: For high-traffic deployments, consider implementing load balancing across multiple instances.
+- Using GPU acceleration for AI-based tasks.
+- Caching frequently used data.
+- Limiting unnecessary API calls by fine-tuning request frequency.
+
+---
 
 ## Security Considerations
 
-When deploying JARVIS-MARK5, keep the following security best practices in mind:
+Ensure security by:
 
-1. **API Key Management**: Use environment variables or a secure key management system to store sensitive API keys.
-2. **Input Validation**: Implement thorough input validation to prevent injection attacks.
-3. **Rate Limiting**: Apply rate limiting to prevent abuse of the system.
-4. **Regular Updates**: Keep all dependencies up-to-date to address potential vulnerabilities.
-5. **Encryption**: Use HTTPS for all network communications and encrypt sensitive data at rest.
+- Securing your API keys in environment variables.
+- Enabling SSL for all external API calls.
+- Limiting access to sensitive data via authentication mechanisms.
+
+---
 
 ## Troubleshooting
 
-If you encounter any issues while using JARVIS-MARK5, please check the following:
+If you encounter issues, consult the [Troubleshooting Guide](docs/troubleshooting.md), which covers common problems and solutions such as:
 
-1. Ensure all dependencies are correctly installed.
-2. Verify that your configuration files are set up properly.
-3. Check the logs for any error messages.
+- **API errors**
+- **Missing dependencies**
+- **Database connection issues**
 
-Common Issues:
-
-1. **API Connection Errors**: Verify API keys and network connectivity.
-2. **Module Import Errors**: Ensure all required dependencies are installed.
-3. **Performance Issues**: Check system resources and optimize database queries.
-
-For more detailed troubleshooting, refer to the [Troubleshooting Guide](docs/troubleshooting.md).
+---
 
 ## Contributing
 
-We welcome contributions to JARVIS-MARK5! If you'd like to contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them with clear, descriptive messages.
-4. Push your changes to your fork.
-5. Submit a pull request to the main repository.
-
-Please ensure your code adheres to our coding standards and include tests for new features.
-
 ### Code Style
 
-We follow the PEP 8 style guide for Python code. Please ensure your contributions adhere to this standard. You can use tools like `flake8` or `black` to automatically format your code.
+Follow PEP-8 guidelines for Python code. Make sure to lint your code before committing.
 
 ### Testing
 
-When submitting a pull request, make sure to include appropriate unit tests for your changes. Run the existing test suite to ensure your changes don't break any existing functionality:
+Run tests using `pytest`. Include unit tests for any new modules or features.
 
-```bash
-pytest tests/
-```
+---
 
 ## Roadmap
 
 Future plans for JARVIS-MARK5 include:
 
-- Enhanced multi-language support
-- Integration with more IoT devices and smart home platforms
-- Advanced data analytics and machine learning capabilities
-- Improved voice recognition and synthesis
-- Expanded plugin ecosystem
-
-We welcome community input on prioritizing these features. Please use the GitHub issues to suggest and discuss future enhancements.
-
-## Frequently Asked Questions
-
-1. **Q: Can JARVIS-MARK5 run offline?**
-   A: Yes, with local LLM support enabled, many features can work offline. However, some functionalities may require an internet connection.
-
-2. **Q: How do I update JARVIS-MARK5?**
-   A: Pull the latest changes from the repository and run `pip install -r requirements.txt` to update dependencies.
-
-3. **Q: Is JARVIS-MARK5 compatible with Windows/macOS/Linux?**
-   A: Yes, JARVIS-MARK5 is designed to be cross-platform compatible. However, some features may require additional setup on specific operating systems.
-
-
-## License
-
-JARVIS-MARK5 is released under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-We would like to thank the contributors and maintainers of the open-source projects that JARVIS-MARK5 relies on, including:
-
-- Perplexica (AI-powered search engine)
-- OpenAI (Large Language Models)
-- Groq (API for querying knowledge graphs)
-- Anthropic (AI-powered search engine)
-- PyTorch (Deep learning framework)
-- Transformers (Library for transformer models)
-- PyGitHub (Python library for GitHub API)
-
-We are grateful for their hard work and dedication, which has made JARVIS-MARK5 possible.
+- **Mobile App Integration**
+- **Enhanced Multi-modal Interaction**
+- **Support for additional LLMs**
+- **IoT device automation**
 
 ---
 
-We hope you enjoy using JARVIS-MARK5! For any questions, issues, or suggestions, please don't hesitate to open an issue on our GitHub repository or join our community Discord server.
+## Frequently Asked Questions
 
-Happy coding with JARVIS-MARK5! 🚀🤖
+1. **Can I use JARVIS-MARK5 offline?**  
+   Yes, certain functionalities can work offline, but most AI-driven modules require an internet connection.
+
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
+
+---
+
+## Acknowledgements
+
+Special thanks to all contributors and developers who helped build and improve JARVIS-MARK5.
+
+
+Let me know if you'd like further modifications!
