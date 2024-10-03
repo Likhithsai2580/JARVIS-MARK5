@@ -19,7 +19,7 @@ import platform
 import json
 from backend.modules.speak.speakmid import TTS as speakon
 from backend.modules.speak.speakoff import off as speakoff
-
+from morefunctions import logic
 def speak(text):
     try:
         speakon(text)
@@ -537,9 +537,7 @@ def Operate(user_input):
                 results.append("web-app")
 
             else:
-                logging.warning(f"Unhandled tag: {tag}")
-                speak(f"Sorry, I don't understand the request for {tag}.")
-                results.append(f"Unhandled request: {tag}")
+                logic(user_input)
 
         return '+'.join(results)  # Return all executed actions
 
