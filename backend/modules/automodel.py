@@ -20,6 +20,7 @@ import json
 from backend.modules.speak.speakmid import TTS as speakon
 from backend.modules.speak.speakoff import off as speakoff
 from morefunctions import logic
+
 def speak(text):
     try:
         speakon(text)
@@ -27,16 +28,10 @@ def speak(text):
         speakoff(text)
 
 def get_os_info():
-    # Get the OS name
     os_name = platform.system()
-    
-    # Get the OS version
     os_version = platform.version()
-    
-    # Get the OS release
     os_release = platform.release()
-    
-    return os_name+os_version+os_release
+    return os_name + os_version + os_release
 
 def get_extension_info():
     with open("extensions/config_all.json", 'r') as f:
@@ -50,6 +45,7 @@ def get_extension_info():
             'parameters': extension['parameters']
         }
         extensions_info.append(extension_info)
+    return extensions_info
 
 extension_prompt = """
 """
@@ -198,68 +194,50 @@ User asks: "Can you update the title slide of my existing presentation?" → Res
 Always ensure that your response accurately reflects the user's needs based on whether they are creating a new presentation or working with an existing one."""
 
 def run_codebrew(user_input):
-    # Initialize the LLM instance with the desired configurations
     llm = LLM(
         verbose=True, 
         max_tokens=4096, 
         messages=samplePrompt(), 
         system_prompt=codebrewPrompt()
     )
-    
-    # Create an instance of CodeBrew with the initialized LLM
     codebrew = CodeBrew(llm, keepHistory=True)
-    
-    # Start the conversation loop
     while True:
         user_input = input(">>> ")
         response = codebrew.run(user_input)
         print(response)
 
-
 def record_screen(video_filename='output.mp4', duration=20):
-    # Define the codec and create VideoWriter object for MP4
-    codec = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for MP4 files
-    screen_size = pyautogui.size()  # Get the screen size
-    fps = 20  # Frames per second
+    codec = cv2.VideoWriter_fourcc(*'mp4v')
+    screen_size = pyautogui.size()
+    fps = 20
     out = cv2.VideoWriter(video_filename, codec, fps, screen_size)
 
     print(f"Recording started. Will record for {duration} seconds...")
     
     start_time = time.time()
     while True:
-        # Capture the screen
         img = pyautogui.screenshot()
         frame = np.array(img)
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        
-        # Write the frame into the video
         out.write(frame)
         
-        # Check if the duration has elapsed
         elapsed_time = time.time() - start_time
         if elapsed_time >= duration:
             break
 
-    # Release the VideoWriter object
     out.release()
     cv2.destroyAllWindows()
     print(f"Recording completed. Video saved as {video_filename}")
 
 def copy_url_from_browser():
-    # Simulate pressing Ctrl+L to focus the address bar
     pyautogui.hotkey('ctrl', 'l')
-    time.sleep(0.5)  # Wait for the focus to shift
-
-    # Simulate pressing Ctrl+C to copy the URL
+    time.sleep(0.5)
     pyautogui.hotkey('ctrl', 'c')
-    time.sleep(0.5)  # Wait for the URL to be copied to the clipboard
+    time.sleep(0.5)
 
 def get_url_from_clipboard():
     try:
-        # Get URL from clipboard
         url = pyperclip.paste()
-        
-        # Validate if the clipboard content seems like a URL
         if url.startswith('http://') or url.startswith('https://'):
             return url
         else:
@@ -271,103 +249,64 @@ def get_url_from_clipboard():
 
 def scrape_website(url):
     try:
-        # Send an HTTP request to the specified URL
         response = requests.get(url)
-        
-        # Check if the request was successful
         if response.status_code == 200:
-            # Parse the content of the response
             soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # Convert the parsed HTML content to a string
             web = soup.prettify()
-            
             return web
         else:
-            # Handle failed request
             print(f"Failed to retrieve content. Status code: {response.status_code}")
             return None
-    
     except requests.RequestException as e:
-        # Handle any exceptions that occur during the request
         print(f"An error occurred: {e}")
         return None
 
 def webscraper():
-    # Step 1: Copy URL from browser
     copy_url_from_browser()
-    
-    # Step 2: Get URL from clipboard
     url = get_url_from_clipboard()
-    
     if url:
-        # Step 3: Scrape the website
         web_content = scrape_website(url)
-        
         if web_content:
             print("Web content successfully retrieved and stored in 'web' variable.")
             return web_content
-            # Do something with 'web_content'
         else:
             return("Failed to retrieve web content.")
     else:
         return("No valid URL found in clipboard.")
 
 def take_screenshot():
-    # Take a screenshot
     screenshot = pyautogui.screenshot()
-
-    # Save the screenshot to a file
     screenshot.save('screenshot.png')
-    
     print("Screenshot saved as 'screenshot.png'.")
 
 def capture_photo():
-    # Open a connection to the webcam (usually the first webcam is index 0)
     cap = cv2.VideoCapture(0)
-
-    # Check if the webcam is opened correctly
     if not cap.isOpened():
         print("Error: Could not open webcam.")
         return
-    
-    # Capture a single frame
     ret, frame = cap.read()
-
-    # Release the webcam
     cap.release()
-    
-    # Check if the frame was captured successfully
     if not ret:
         print("Error: Could not capture image.")
         return
-
-    # Save the captured image
     cv2.imwrite('captured_photo.jpg', frame)
-    
     print("Photo saved as 'captured_photo.jpg'.")
 
 def execute_code(code_str):
     success = None
     error = None
-    
     try:
-        # Create a dictionary to act as the local namespace for exec
         local_namespace = {}
         exec(code_str, {}, local_namespace)
-        
-        # If exec() succeeds, we store the local namespace in success
         success = local_namespace
     except Exception as e:
-        # If an exception occurs, store the exception in error
         error = str(e)
-    
     return success, error
 
 def automation(user_input):
-    prompt = automation_prompt+user_input
+    prompt = automation_prompt + user_input
     code = filter_python(pure_llama3(prompt))
-    success,error = execute_code(code)
+    success, error = execute_code(code)
     if success:
         return pure_llama3(code + success)
     else:
@@ -375,7 +314,7 @@ def automation(user_input):
         execute_code(filter_python(pure_llama3(f"failed to execute {error} while running {code}")))
 
 def img_dealing(user_input):
-    response = AIClient.safe_predict(prompt_distiguisher_img+user_input)
+    response = AIClient.safe_predict(prompt_distiguisher_img + user_input)
     if "img_from_camera" in response:
         capture_photo()
         return dealing.analyze_image_or_video("captured_photo.jpg", user_input)
@@ -389,7 +328,7 @@ def img_dealing(user_input):
 
 def website_dealing(user_input):
     web_con = webscraper()
-    prompt=f"Please respond to the following message considering the context provided: {web_con} query: {user_input}"
+    prompt = f"Please respond to the following message considering the context provided: {web_con} query: {user_input}"
     return pure_llama3(prompt)
 
 def screanshare():
@@ -399,7 +338,6 @@ def live_webcam():
     result = EYE()
     if result == "stop":
         return "close_webcam"
-
 
 def video_dealing(user_input):
     record_screen()
@@ -412,7 +350,7 @@ def excel_dealing(user_input):
     dealing.excel_dealer(user_input)
 
 def powerpoint_dealing(user_input):
-    response = AIClient.safe_predict(powerpoint_distiguisher_prompt+f" {user_input}")
+    response = AIClient.safe_predict(powerpoint_distiguisher_prompt + f" {user_input}")
     if "generate_pptx" in response:
         generate_powerpoint(user_input=user_input)
     else:
@@ -436,12 +374,11 @@ def Operate(user_input):
     logging.info(f"AI response: {response}")
     
     try:
-        # Split the response into individual tags
         tags = response.split('+')
         results = []
 
         for tag in tags:
-            tag = tag.strip()  # Remove any whitespace
+            tag = tag.strip()
             if "automation" in tag:
                 result = automation(user_input)
                 speak(result)
@@ -463,20 +400,20 @@ def Operate(user_input):
                 speak("OK sir, trying to click on the button")
                 if "double" in text:
                     try:
-                        text = text.replace("double","")
+                        text = text.replace("double", "")
                         from backend.modules.ocr.ocron import ocr_on
                         results.append(ocr_on(text, True))
                     except:
-                        text = text.replace("double","")
+                        text = text.replace("double", "")
                         from backend.modules.ocr.ocroff import ocr_off
                         results.append(ocr_off(text, True)) 
                 else:
                     try:
-                        text = text.replace("","")
+                        text = text.replace("", "")
                         from backend.modules.ocr.ocron import ocr_on
                         results.append(ocr_on(text, True))
                     except:
-                        text = text.replace("","")
+                        text = text.replace("", "")
                         from backend.modules.ocr.ocroff import ocr_off
                         results.append(ocr_off(text, True)) 
 
@@ -539,7 +476,7 @@ def Operate(user_input):
             else:
                 logic(user_input)
 
-        return '+'.join(results)  # Return all executed actions
+        return '+'.join(results)
 
     except Exception as e:
         logging.error(f"Error processing request: {str(e)}")

@@ -54,6 +54,9 @@ JARVIS-MARK5 offers a wide range of features:
 - **Voice Recognition and Text-to-Speech**: Switch between voice and text input/output seamlessly.
 - **Cross-platform Compatibility**: Runs on Windows, macOS, and Linux.
 - **IoT and API Integration**: Integrate with third-party APIs and smart devices.
+- **Enhanced Classification Algorithm**: More sophisticated logic for classification tasks.
+- **Optimized Tools**: Improved performance and efficiency of existing tools.
+- **New Features**: Additional functionalities to enhance user experience.
 
 ## Installation
 
@@ -245,9 +248,7 @@ If you want to build your own extension, follow these steps:
 1. Create a new directory for your extension.
 2. Define your extension in the `__init__.py` file.
 3. Include the necessary configuration in `config.json`.
-4. Document your extension
-
-’s API endpoints (if applicable).
+4. Document your extension’s API endpoints (if applicable).
 
 For a detailed tutorial, see the [Extensions Developer Guide](docs/extensions_guide.md).
 
@@ -326,7 +327,6 @@ Future plans for JARVIS-MARK5 include:
 
 1. **Can I use JARVIS-MARK5 offline?**  
    Yes, certain functionalities can work offline, but most AI-driven modules require an internet connection.
-
 
 ---
 
