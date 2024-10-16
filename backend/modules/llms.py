@@ -134,6 +134,38 @@ class AIClient:
                 logger.error(f"Error in llama: {e}")
                 return "An error occurred while fetching the result."
 
+    def optimize_method(self, prompt):
+        """Optimize method for better performance."""
+        try:
+            result = client.predict(
+                prompt=prompt,
+                temperature=0.7,
+                max_new_tokens=200,
+                top_p=0.85,
+                repetition_penalty=1.1,
+                api_name="/optimize"
+            ).replace("</s>", "")
+            return result if result else "No result returned from API."
+        except Exception as e:
+            logger.error(f"Error during optimize call: {e}")
+            return "An error occurred while optimizing the result."
+
+    def new_feature_method(self, prompt):
+        """New feature method to enhance functionality."""
+        try:
+            result = client.predict(
+                prompt=prompt,
+                temperature=0.8,
+                max_new_tokens=300,
+                top_p=0.9,
+                repetition_penalty=1.2,
+                api_name="/new_feature"
+            ).replace("</s>", "")
+            return result if result else "No result returned from API."
+        except Exception as e:
+            logger.error(f"Error during new feature call: {e}")
+            return "An error occurred while fetching the new feature result."
+
 class VectorDB:
     def __init__(self):
         self.vector_db = self._initialize_vector_db()

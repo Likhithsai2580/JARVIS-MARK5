@@ -121,3 +121,28 @@ class CodeBrew:
                 break
         if not self.keepHistory:
             self.llm.messages = the_copy
+
+    def add_feature(self, feature_name: str, feature_code: str):
+        """
+        Add a new feature to the CodeBrew instance.
+
+        Args:
+            feature_name (str): The name of the feature.
+            feature_code (str): The code for the feature.
+        """
+        setattr(self, feature_name, feature_code)
+
+    def optimize_method(self, method_name: str):
+        """
+        Optimize an existing method for better performance.
+
+        Args:
+            method_name (str): The name of the method to optimize.
+        """
+        method = getattr(self, method_name, None)
+        if method:
+            optimized_code = self.llm.ask([f"Optimize the following method for better performance:\n{method}"])
+            exec(optimized_code, globals(), locals())
+            setattr(self, method_name, locals()[method_name])
+        else:
+            print(f"Method {method_name} not found.")
