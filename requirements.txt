@@ -10,7 +10,7 @@ docx2pdf
 eel
 ppt2pdf
 fpdf
-nara
+# nara  # not on PyPI; stubbed locally — see backend/modules/codebrew/db/DbCls.py
 Pillow
 easyocr
 numpy
@@ -20,7 +20,7 @@ edge-tts
 pyttsx3
 colorama
 img2pdf
-pywin32
+# pywin32  # Windows-only, skipped on macOS
 pyautogui
 beautifulsoup4
 pyperclip

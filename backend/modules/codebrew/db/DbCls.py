@@ -1,6 +1,7 @@
 from chromadb.utils import embedding_functions
 from rich import print
-from nara.extra import TimeIt
+def TimeIt(fn):
+    return fn
 from db.embeddingCls import Model, paraphrase_MiniLM_L3_v2, all_mpnet_base_v2
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import json
